@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
-import 'homepage.dart'; // Mengimpor homepage.dart
+import 'homepage.dart'; // Mengimpor halaman utama 
+import 'accelerometer.dart'; // Mengimpor halaman akselerometer 
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false, // Menyembunyikan label debug
-      title: 'Accelerometer and Map App', // Judul aplikasi
+      debugShowCheckedModeBanner: false,
+      title: 'Road Damage Detection',
       theme: ThemeData(
-        primarySwatch: Colors.blue, // Warna tema aplikasi
+        primarySwatch: Colors.blue,
       ),
-      home: HomePage(), // Mengarahkan ke halaman HomePage
+      // Menambahkan routing untuk navigasi antar halaman
+      initialRoute: '/',
+      routes: {
+        '/': (context) => Homepage(), // Halaman awal (Homepage)
+        '/accelerometer': (context) => AccelerometerPage(), // Halaman akselerometer
+      },
     );
   }
 }

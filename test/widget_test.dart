@@ -3,8 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:fl_chart/fl_chart.dart';
-
-import 'package:pendeteksi_jalan/main.dart'; // ganti dengan path file utama
+import 'package:pendeteksi_jalan/main.dart'; 
+import 'package:curved_nav_bar/flutter_curved_bottom_nav_bar.dart'
 
 void main() {
   testWidgets('Test HomePage widgets', (WidgetTester tester) async {
