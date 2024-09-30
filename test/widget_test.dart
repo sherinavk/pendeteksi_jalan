@@ -1,30 +1,38 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sensors_plus/sensors_plus.dart';
+import 'package:fl_chart/fl_chart.dart';
 
-import 'package:pendeteksi_jalan/main.dart';
+import 'package:pendeteksi_jalan/main.dart'; // ganti dengan path file utama
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('Test HomePage widgets', (WidgetTester tester) async {
+    // Membangun HomePage widget
+    await tester.pumpWidget(MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Memastikan widget yang berisi 'Accelerometer Data' ada
+    expect(find.text('Accelerometer Data'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Memastikan ada widget yang menggunakan Google Maps
+    expect(find.byType(GoogleMap), findsOneWidget);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Memastikan grafik FlChart ditampilkan
+    expect(find.byType(LineChart), findsOneWidget);
+
+    // Memastikan Floating Action Button ada dan ikonnya benar
+    expect(find.byType(FloatingActionButton), findsOneWidget);
+    expect(find.byIcon(Icons.add), findsOneWidget);
+
+    // Memastikan Google Map ada dan diinisialisasi
+    expect(find.byType(GoogleMap), findsOneWidget);
+
+    // Memastikan bahwa grafik menunjukkan data
+    await tester.pumpAndSettle();
+    expect(find.byType(LineChartBarData), findsWidgets);
+
+    // Simulasi tap pada FloatingActionButton (bisa diisi aksi lain untuk uji fungsi)
+    await tester.tap(find.byType(FloatingActionButton));
+    await tester.pump(); // Memproses aksi tap
   });
 }
