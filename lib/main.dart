@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
       // Menambahkan routing untuk navigasi antar halaman
       initialRoute: '/',
       routes: {
-        '/': (context) => Homepage(), // Halaman awal (Homepage)
-        '/accelerometer': (context) => AccelerometerPage(), // Halaman akselerometer
+        '/': (context) => HomeScreen(), // Halaman awal (Homepage)
+        '/accelerometer': (context) => Sensors(), // Halaman akselerometer
       },
     );
   }

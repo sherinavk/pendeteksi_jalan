@@ -3,7 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'dart:math'; // Untuk menghitung nilai total akselerasi (akar kuadrat)
 
-class MyApp extends StatelessWidget {
+class Sensors extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

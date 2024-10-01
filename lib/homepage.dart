@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:curved_nav_bar/flutter_curved_bottom_nav_bar.dart'
 
-class MyApp extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,10 +15,10 @@ class MyApp extends StatelessWidget {
 
 class HomePage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   double x = 0, y = 0, z = 0;
   List<FlSpot> spots = [];
 
@@ -28,7 +27,7 @@ class _HomePageState extends State<HomePage> {
 
   final LatLng _center = const LatLng(-6.2088, 106.8456); // Lokasi Jakarta
 
-  void _onMapCreated(GoogleMapController controller) {
+  void onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
 
@@ -47,22 +46,54 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Road Damage Detector"),
+      ),
+      body: getPage(_currentIndex), // Menampilkan halaman berdasarkan indeks navbar
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (int index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: 'Map',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
+      ),
+    );
+  }
+
   // Fungsi untuk menampilkan halaman sesuai dengan indeks navbar
-  Widget _getPage(int index) {
+  Widget getPage(int index) {
     switch (index) {
       case 0:
-        return _buildAccelerometerWidget(); // Tab Home menampilkan widget akselerometer
+        return buildAccelerometerWidget(); // Tab Home menampilkan widget akselerometer
       case 1:
-        return _buildMapWidget(); // Tab Search menampilkan Google Maps
+        return buildMapWidget(); // Tab Map menampilkan Google Maps
       case 2:
-        return _buildProfileWidget(); // Tab Profile menampilkan halaman profil
+        return buildProfileWidget(); // Tab Profile menampilkan halaman profil
       default:
         return Container();
     }
   }
 
   // Widget Akselerometer
-  Widget _buildAccelerometerWidget() {
+  Widget buildAccelerometerWidget() {
     return Column(
       children: [
         // Bagian Akselerometer
@@ -96,4 +127,35 @@ class _HomePageState extends State<HomePage> {
                         dotData: FlDotData(show: false),
                         belowBarData: BarAreaData(
                           show: true,
-                          color: Color.fromARGB(100, 0,
+                          color: Color.fromARGB(100, 0, 0, 0),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  // Widget Google Maps
+  Widget buildMapWidget() {
+    return GoogleMap(
+      onMapCreated: onMapCreated,
+      initialCameraPosition: CameraPosition(
+        target: _center,
+        zoom: 11.0,
+      ),
+    );
+  }
+
+  // Widget profil placeholder
+  Widget buildProfileWidget() {
+    return Center(
+      child: Text("Profile Page"),
+    );
+  }
+}
