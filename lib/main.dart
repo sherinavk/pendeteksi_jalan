@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'homepage.dart'; // Mengimpor halaman utama 
-import 'accelerometer.dart'; // Mengimpor halaman akselerometer 
+import 'homepage.dart'; // Mengimpor halaman utama
+import 'accelerometer.dart'; // Mengimpor halaman akselerometer
 
 void main() {
   runApp(MyApp());
@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
       // Menambahkan routing untuk navigasi antar halaman
       initialRoute: '/',
       routes: {
-        '/': (context) => HomeScreen(), // Halaman awal (Homepage)
-        '/accelerometer': (context) => Sensors(), // Halaman akselerometer
+        '/': (context) => const HomeScreen(), // Halaman awal (Homepage)
+        '/accelerometer': (context) => const Sensors(), // Halaman akselerometer
       },
     );
   }

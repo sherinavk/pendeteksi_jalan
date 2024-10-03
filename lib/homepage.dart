@@ -1,161 +1,101 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps/google_maps.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:graphic/graphic.dart';
 
 class HomeScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  @override
-  HomePageState createState() => HomePageState();
-}
-
-class HomePageState extends State<HomePage> {
-  double x = 0, y = 0, z = 0;
-  List<FlSpot> spots = [];
-
-  GoogleMapController? mapController;
-  int _currentIndex = 0; // Menyimpan indeks tab saat ini
-
-  final LatLng _center = const LatLng(-6.2088, 106.8456); // Lokasi Jakarta
-
-  void onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Mendapatkan data akselerometer secara real-time
-    accelerometerEvents.listen((AccelerometerEvent event) {
-      setState(() {
-        x = event.x;
-        y = event.y;
-        z = event.z;
-        spots.add(FlSpot(spots.length.toDouble(), x)); // Menambahkan data untuk grafik
-      });
-    });
-  }
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Road Damage Detector"),
-      ),
-      body: getPage(_currentIndex), // Menampilkan halaman berdasarkan indeks navbar
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (int index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: 'Map',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
+      backgroundColor: const Color.fromARGB(255, 18, 32, 47),
+      body: ListView(
+        children: [
+          HomePage(),
         ],
       ),
     );
   }
+}
 
-  // Fungsi untuk menampilkan halaman sesuai dengan indeks navbar
-  Widget getPage(int index) {
-    switch (index) {
-      case 0:
-        return buildAccelerometerWidget(); // Tab Home menampilkan widget akselerometer
-      case 1:
-        return buildMapWidget(); // Tab Map menampilkan Google Maps
-      case 2:
-        return buildProfileWidget(); // Tab Profile menampilkan halaman profil
-      default:
-        return Container();
-    }
-  }
-
-  // Widget Akselerometer
-  Widget buildAccelerometerWidget() {
+class HomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
-        // Bagian Akselerometer
+        // Container untuk grafik akselerometer
         Container(
-          padding: EdgeInsets.all(20),
+          margin: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(
-            color: Colors.blue.shade100,
-            borderRadius: BorderRadius.circular(20),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(35),
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Accelerometer Data',
+              const SizedBox(height: 20),
+              const Text(
+                'Grafik Akselerometer',
                 style: TextStyle(
+                  color: Colors.black,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 10),
-              // Grafik dari data akselerometer menggunakan fl_chart
+              const SizedBox(height: 20),
+              // Placeholder untuk grafik akselerometer
               Container(
-                height: 150,
-                child: LineChart(
-                  LineChartData(
-                    lineBarsData: [
-                      LineChartBarData(
-                        spots: spots, // Data grafik
-                        isCurved: true,
-                        color: Color.fromARGB(255, 52, 120, 255),
-                        dotData: FlDotData(show: false),
-                        belowBarData: BarAreaData(
-                          show: true,
-                          color: Color.fromARGB(100, 0, 0, 0),
-                        ),
-                      ),
-                    ],
+                width: 350,
+                height: 250,
+                color: const Color(0xFF70A4E3),
+                child: const Center(
+                  child: Text(
+                    'Chart Akselerometer Placeholder',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ),
               ),
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
+        // Container untuk lokasi
+        Container(
+          margin: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(35),
+          ),
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              const Text(
+                'Data Lokasi',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 20),
+              // Placeholder untuk konten lokasi
+              Container(
+                width: 350,
+                height: 250,
+                color: const Color(0xFF70A4E3),
+                child: const Center(
+                  child: Text(
+                    'Location Placeholder',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
             ],
           ),
         ),
       ],
-    );
-  }
-
-  // Widget Google Maps
-  Widget buildMapWidget() {
-    return GoogleMap(
-      onMapCreated: onMapCreated,
-      initialCameraPosition: CameraPosition(
-        target: _center,
-        zoom: 11.0,
-      ),
-    );
-  }
-
-  // Widget profil placeholder
-  Widget buildProfileWidget() {
-    return Center(
-      child: Text("Profile Page"),
     );
   }
 }

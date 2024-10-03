@@ -59,47 +59,56 @@ class _HomePageState extends State<HomePage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // Bagian judul dan grafik akselerometer
+              // Bagian judul dan grafik akselerometer (yang bisa di-tap)
               Padding(
                 padding: EdgeInsets.all(size.width * 0.05), // Padding responsif berdasarkan lebar layar
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'ACCELEROMETER',
-                      style: TextStyle(
-                        fontSize: size.width * 0.06, // Ukuran teks responsif
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: size.height * 0.02),
-                    Container(
-                      height: size.height * 0.25, // Tinggi kontainer responsif
-                      padding: EdgeInsets.all(size.width * 0.02),
-                      decoration: BoxDecoration(
-                        color: Colors.blue.shade100,
-                        borderRadius: BorderRadius.circular(size.width * 0.04),
-                      ),
-                      child: LineChart(
-                        LineChartData(
-                          lineBarsData: [
-                            LineChartBarData(
-                              spots: spots, // Data grafik
-                              isCurved: true, // Garis grafik yang halus
-                              color: Colors.blue,
-                              belowBarData: BarAreaData(
-                                show: true,
-                                color: Colors.blue.withOpacity(0.3),
-                              ),
-                            ),
-                          ],
-                          titlesData: FlTitlesData(show: false), // Menyembunyikan judul sumbu
-                          gridData: FlGridData(show: false), // Menyembunyikan garis grid
-                          borderData: FlBorderData(show: false), // Menyembunyikan batas grafik
+                child: GestureDetector(
+                  onTap: () {
+                    // Aksi ketika box ditekan: pindah ke halaman accelerometer
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SensorsPage()), // Halaman accelerometer
+                    );
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'ACCELEROMETER',
+                        style: TextStyle(
+                          fontSize: size.width * 0.06, // Ukuran teks responsif
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(height: size.height * 0.02),
+                      Container(
+                        height: size.height * 0.25, // Tinggi kontainer responsif
+                        padding: EdgeInsets.all(size.width * 0.02),
+                        decoration: BoxDecoration(
+                          color: Colors.blue.shade100,
+                          borderRadius: BorderRadius.circular(size.width * 0.04),
+                        ),
+                        child: LineChart(
+                          LineChartData(
+                            lineBarsData: [
+                              LineChartBarData(
+                                spots: spots, // Data grafik
+                                isCurved: true, // Garis grafik yang halus
+                                color: Colors.blue,
+                                belowBarData: BarAreaData(
+                                  show: true,
+                                  color: Colors.blue.withOpacity(0.3),
+                                ),
+                              ),
+                            ],
+                            titlesData: FlTitlesData(show: false), // Menyembunyikan judul sumbu
+                            gridData: FlGridData(show: false), // Menyembunyikan garis grid
+                            borderData: FlBorderData(show: false), // Menyembunyikan batas grafik
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
 
@@ -152,6 +161,21 @@ class _HomePageState extends State<HomePage> {
             child: Icon(Icons.home, size: size.width * 0.1, color: Colors.blue), // Ikon responsif
           ),
         ),
+      ),
+    );
+  }
+}
+
+// Halaman yang akan dituju saat box atas ditekan
+class SensorsPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Accelerometer Page'),
+      ),
+      body: Center(
+        child: Text('This is the Accelerometer Page'),
       ),
     );
   }
