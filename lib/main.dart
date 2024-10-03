@@ -17,9 +17,10 @@ class MyApp extends StatelessWidget {
       ),
       // Menambahkan routing untuk navigasi antar halaman
       initialRoute: '/',
+      
       routes: {
         '/': (context) => const HomeScreen(), // Halaman awal (Homepage)
-        '/accelerometer': (context) => const Sensors(), // Halaman akselerometer
+        '/accelerometer': (context) => Sensors(), // Halaman akselerometer
       },
     );
   }
